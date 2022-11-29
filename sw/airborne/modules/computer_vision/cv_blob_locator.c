@@ -34,7 +34,6 @@
 #endif
 PRINT_CONFIG_VAR(BLOB_LOCATOR_FPS)
 
-
 uint8_t color_lum_min;
 uint8_t color_lum_max;
 
@@ -230,20 +229,41 @@ struct image_t *cv_blob_locator_func(struct image_t *img, uint8_t camera_id)
 void cv_blob_locator_init(void)
 {
   // Red board in sunlight
+  #ifdef COLOR_LUM_MIN
+  color_lum_min = COLOR_LUM_MIN;
+  #else
   color_lum_min = 100;
+  #endif
+  
+  #ifdef COLOR_LUM_MAX
+  color_lum_max = COLOR_LUM_MAX;
+  #else
   color_lum_max = 200;
+  #endif
+  
+  #ifdef COLOR_CB_MIN
+  color_cb_min = COLOR_CB_MIN;
+  #else
   color_cb_min = 140;
+  #endif
+  
+  #ifdef COLOR_CB_MAX
+  color_cb_max = COLOR_CB_MAX;
+  #else
   color_cb_max = 255;
+  #endif
+  
+  #ifdef COLOR_CR_MIN
+  color_cr_min = COLOR_CR_MIN;
+  #else
   color_cr_min = 140;
+  #endif
+  
+  #ifdef COLOR_CR_MAX
+  color_cr_max = COLOR_CR_MAX;
+  #else
   color_cr_max = 255;
-
-  // Lamp during night
-  color_lum_min = 180;
-  color_lum_max = 255;
-  color_cb_min = 100;
-  color_cb_max = 150;
-  color_cr_min = 100;
-  color_cr_max = 150;
+  #endif
 
   cv_blob_locator_reset = 0;
 

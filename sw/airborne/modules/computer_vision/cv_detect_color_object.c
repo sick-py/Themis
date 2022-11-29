@@ -71,12 +71,6 @@ bool cod_draw1 = false;
 bool cod_draw2 = false;
 
 // define global variables
-struct color_object_t {
-  int32_t x_c;
-  int32_t y_c;
-  uint32_t color_count;
-  bool updated;
-};
 struct color_object_t global_filters[2];
 
 // Function
@@ -84,6 +78,18 @@ uint32_t find_object_centroid(struct image_t *img, int32_t* p_xc, int32_t* p_yc,
                               uint8_t lum_min, uint8_t lum_max,
                               uint8_t cb_min, uint8_t cb_max,
                               uint8_t cr_min, uint8_t cr_max);
+
+
+bool on_top_of_target() {
+    bool result = false;
+    if (global_filters[0].color_count) {
+        if (abs(global_filters[0].y_c) <= 10 &&
+                abs(global_filters[0].x_c) <= 10) {
+            result = true;
+        }
+    }
+    return result;
+}
 
 /*
  * object_detector

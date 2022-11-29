@@ -52,5 +52,15 @@ extern bool cod_draw2;
 // Module functions
 extern void color_object_detector_init(void);
 extern void color_object_detector_periodic(void);
+extern bool on_top_of_landing_pad(void);
+
+// define global variables
+struct color_object_t {
+  int32_t x_c;
+  int32_t y_c;
+  uint32_t color_count;
+  bool updated;
+};
+extern struct color_object_t global_filters[2];
 
 #endif /* COLOR_OBJECT_DETECTOR_CV_H */

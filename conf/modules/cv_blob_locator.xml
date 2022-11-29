@@ -10,15 +10,15 @@
   <settings>
     <dl_settings>
       <dl_settings NAME="ColorFilter">
-        <dl_setting var="color_lum_min" min="0" step="1" max="255" shortname="y_min" />
-        <dl_setting var="color_lum_max" min="0" step="1" max="255" shortname="y_max" />
-        <dl_setting var="color_cb_min"  min="0" step="1" max="255" shortname="u_min" />
-        <dl_setting var="color_cb_max"  min="0" step="1" max="255" shortname="u_max" />
-        <dl_setting var="color_cr_min"  min="0" step="1" max="255" shortname="v_min" />
-        <dl_setting var="color_cr_max"  min="0" step="1" max="255" shortname="v_max" />
-        <dl_setting var="marker_size"  min="1" step="1" max="20" shortname="marker" />
-        <dl_setting var="geofilter_length"  min="1" step="1" max="100" shortname="filter" />
-        <dl_setting var="record_video"  min="0" step="1" max="1" shortname="record"  values="OFF|ON" />
+        <dl_setting var="color_lum_min" min="0" step="1" max="255" shortname="y_min" param="COLOR_LUM_MIN" />
+        <dl_setting var="color_lum_max" min="0" step="1" max="255" shortname="y_max" param="COLOR_LUM_MAX" />
+        <dl_setting var="color_cb_min"  min="0" step="1" max="255" shortname="u_min" param="COLOR_CB_MIN" />
+        <dl_setting var="color_cb_max"  min="0" step="1" max="255" shortname="u_max" param="COLOR_CB_MAX" />
+        <dl_setting var="color_cr_min"  min="0" step="1" max="255" shortname="v_min" param="COLOR_CR_MIN" />
+        <dl_setting var="color_cr_max"  min="0" step="1" max="255" shortname="v_max" param="COLOR_CR_MAX" />
+        <dl_setting var="marker_size"  min="1" step="1" max="20" shortname="marker" param="MARKER_SIZE" />
+        <dl_setting var="geofilter_length"  min="1" step="1" max="100" shortname="filter" param="GEOFILTER_LENGTH"/>
+        <dl_setting var="record_video"  min="0" step="1" max="1" shortname="record"  values="OFF|ON" param="RECORD_VIDEO"/>
         <dl_setting var="cv_blob_locator_reset" max="1" min="0" step="1" module="computer_vision/cv_blob_locator"  handler="GeoReset">
           <strip_button name="Reset Geoprojection Filter" value="1" icon="resurrect.png" group="cv"/>
         </dl_setting>

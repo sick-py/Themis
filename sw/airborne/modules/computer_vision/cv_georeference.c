@@ -33,6 +33,8 @@
 #include "generated/flight_plan.h"
 #include "modules/datalink/downlink.h"
 
+#include "cv_detect_color_object.h"
+
 struct georeference_filter_t {
   struct Int32Vect3 x;          ///< Target
   struct Int32Vect3 v;          ///< Target Velocity
@@ -155,26 +157,17 @@ int32_t focus_length;
 void georeference_run(void)
 {
   struct camera_frame_t target;
-  target.w = 320;
-  target.h = 240;
-  target.f = focus_length;
-  target.px = 0;
-  target.py = 0;
-  georeference_project(&target,WP_p1);
-  target.px = 320;
-  target.py = 0;
-  georeference_project(&target,WP_p2);
-  target.px = 320;
-  target.py = 240;
-  georeference_project(&target,WP_p3);
-  target.px = 0;
-  target.py = 240;
-  georeference_project(&target,WP_p4);
-
-  target.px = 0;
-  target.py = 120;
-  georeference_project(&target,0);
-  georeference_filter(FALSE, WP_CAM,50);
+  if (global_filters[0].color_count) {
+    target.w = 320;
+    target.h = 240;
+    target.f = focus_length;
+    target.px = target.w/2 - global_filters[0].x_c;
+    target.py = target.h/2 + global_filters[0].y_c;
+    georeference_project(&target, WP_DETECTED_OBJECT);
+    georeference_filter(FALSE, WP_DETECTED_OBJECT, 10);
+  } else {
+    focus_length = 200;
+  }
 }
 
 void georeference_init(void)
@@ -187,7 +180,7 @@ void georeference_init(void)
   INT32_VECT3_ZERO(geo.filter.v);
   INT32_VECT3_ZERO(geo.filter.x);
   geo.filter.P = 0;
-  focus_length = 400;
+  focus_length = 200;
 }
 
 
