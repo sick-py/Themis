@@ -9,9 +9,6 @@
     <waypoint name="BLOCK" x="5" y="5"/>
     <waypoint name="DETECTED_OBJECT" x="-1000" y="-1000"/>
   </waypoints>
-  <variables>
-    <variable init="2" type="int" var="jb_alt"/>
-  </variables>
   <blocks>
     <block name="Wait GPS">
       <call_once fun="NavKillThrottle()"/>
