@@ -1,0 +1,53 @@
+<!DOCTYPE flight_plan SYSTEM "flight_plan.dtd">
+
+<flight_plan alt="152" ground_alt="45.110" max_speed="4.1" lat0="51.9906340" lon0="4.3767889" max_dist_from_home="150" name="Rotorcraft Basic (Enac)" security_height="2">
+  <header>
+#include "autopilot.h"
+</header>
+  <waypoints>
+    <waypoint name="people" x="-100" y="-100"/>
+    <waypoint name="HOME" x="0" y="0"/>
+    <!--waypoint name="BLOCK" x="40" y="40"/-->
+    <waypoint name="Dest" x="60" y="80"/>
+    <waypoint name="Dest2" x="40" y="60"/>
+    <waypoint name="Dest3" x="100" y="60"/>
+    <waypoint name="Dest4" x="139" y="20"/>
+    <waypoint name="Dest5" x="107" y="-50"/>
+
+     
+    <noflypoint name="bufferCenter" x="-100" y="-100" radius="3"/>
+  </waypoints>
+  <blocks>
+    <block name="Wait GPS">
+      <call_once fun="NavKillThrottle()"/>
+      <while cond="!GpsFixValid()"/>
+    </block>
+    <block name="Geo init">
+      <while cond="LessThan(NavBlockTime(), 10)"/>
+      <call_once fun="NavSetGroundReferenceHere()"/>
+    </block>
+    <block name="Start Engine">
+      <call_once fun="NavResurrect()"/>
+    </block>
+    <!--block name="Takeoff" strip_button="Takeoff" strip_icon="takeoff.png">
+      <call_once fun="NavSetWaypointHere(WP_HOME)"/>
+      <stay alt="10" until="stage_time > 5" wp="HOME"/>
+    </block-->
+    
+    <!--block name="circle">
+      <circle alt="15" wp="BLOCK" radius="6"/>
+    </block-->
+    
+    <block name="GoThroughNoFlyPoints">
+      <path wpts="HOME, Dest2, Dest, Dest3, Dest4, Dest5, HOME"/>
+    </block>
+    
+    <!--block name="land">
+      <stay climb="nav_descend_vspeed" vmode="climb" wp="DETECTED_OBJECT"/>
+      <exception cond="!nav_is_in_flight()" deroute="landed"/>
+    </block>
+    <block name="landed">
+      <attitude pitch="0" roll="0" throttle="0" until="FALSE" vmode="throttle"/>
+    </block-->
+  </blocks>
+</flight_plan>

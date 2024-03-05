@@ -1,0 +1,62 @@
+<!DOCTYPE flight_plan SYSTEM "flight_plan.dtd">
+
+<flight_plan alt="600" ground_alt="380" lat0="37.2109800" lon0="-113.4567800" max_dist_from_home="500" name="NoFlyZoneTest" qfu="270" security_height="25">
+  <header>
+
+</header>
+  <waypoints>
+    <waypoint name="HOME" x="0" y="0"/>
+    <waypoint name="STDBY" x="0" y="75"/>
+    <waypoint name="dest" x="294.2" y="218.9"/>
+    
+    <!--waypoint name="_e0" x="160" y="160"/>
+    <waypoint name="_e1" x="263.9" y="123.6"/>
+    <waypoint name="_e2" x="241.3" y="183.3"/>
+    <waypoint name="_e3" x="131.8" y="236.0"/-->
+    
+    <!--waypoint name="_b0" x="0" y="50"/>
+    <waypoint name="_b1" x="5" y="45"/>
+    <waypoint name="_b2" x="10" y="40"/>
+    <waypoint name="_b3" x="5" y="35"/>
+    <waypoint name="_b4" x="0" y="30"/>
+    <waypoint name="_b5" x="-5" y="35"/>
+    <waypoint name="_b6" x="-10" y="40"/>
+    <waypoint name="_b7" x="-5" y="45"/-->
+    
+   <!--noflypoint name="nfp" x="0" y="35" radius="10"/-->
+  </waypoints>
+  
+  <sectors>
+    <!--noflyzone color="orange" name="keepOut2">
+      <corner name="_e0"/>
+      <corner name="_e1"/>
+      <corner name="_e2"/>
+      <corner name="_e3"/>
+    </noflyzone-->
+    
+    <!--noflyzone color="blue" name="keepOut3">
+      <corner name="_b0"/>
+      <corner name="_b1"/>
+      <corner name="_b2"/>
+      <corner name="_b3"/>
+      <corner name="_b4"/>
+      <corner name="_b5"/>
+      <corner name="_b6"/>
+      <corner name="_b7"/>
+    </noflyzone-->
+    
+  </sectors>
+
+  <blocks>
+    <block name="Start Engine">
+      <call_once fun="NavResurrect()"/>
+      <attitude pitch="0" roll="0" throttle="0" vmode="throttle" until="FALSE"/>
+    </block>
+    <block name="GoThroughNoFlyZones">
+      <path wpts="HOME, STDBY, dest, HOME"/>
+    </block>
+  </blocks>
+</flight_plan>
+
+
+

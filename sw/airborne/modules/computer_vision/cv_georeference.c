@@ -24,16 +24,20 @@
  */
 
 #include "modules/computer_vision/cv_georeference.h"
-
 #include "math/pprz_trig_int.h"
 #include "math/pprz_algebra.h"
 #include "math/pprz_algebra_int.h"
 
 #include "state.h"
-#include "generated/flight_plan.h"
+#include "generated/flight_plan.h"//here should be delete 
 #include "modules/datalink/downlink.h"
 
 #include "cv_detect_color_object.h"
+
+//the root place should be ./sw/airborne
+//add the reconstruc functions
+#include "firmwares/rotorcraft/navigation.h"
+#define debug 1
 
 struct georeference_filter_t {
   struct Int32Vect3 x;          ///< Target
@@ -156,6 +160,7 @@ int32_t focus_length;
 
 void georeference_run(void)
 {
+  
   struct camera_frame_t target;
   if (global_filters[0].color_count) {
     target.w = 320;
@@ -163,8 +168,78 @@ void georeference_run(void)
     target.f = focus_length;
     target.px = target.w/2 - global_filters[0].x_c;
     target.py = target.h/2 + global_filters[0].y_c;
-    georeference_project(&target, WP_DETECTED_OBJECT);
-    georeference_filter(FALSE, WP_DETECTED_OBJECT, 10);
+    
+
+    //georeference_project(&target, WP_DETECTED_OBJECT);
+    //georeference_filter(FALSE, WP_DETECTED_OBJECT, 10);
+
+    float nofly_before_x = waypoint_get_x(WP_bufferCenter);
+    float nofly_before_y = waypoint_get_y(WP_bufferCenter);
+    georeference_project(&target, WP_people);
+    georeference_filter(FALSE, WP_people, 10);
+
+   
+    //use certain range to decide wheather to reconstract the graph 
+    float nofly_detect_x = waypoint_get_x(WP_people);
+    float nofly_detect_y = waypoint_get_y(WP_people);
+
+    //second node 
+    /*float nofly_before_x2 = waypoint_get_x(WP_bufferCenter2);
+    float nofly_before_y2 = waypoint_get_y(WP_bufferCenter2);
+    georeference_project(&target, WP_people2);
+    georeference_filter(FALSE, WP_people2, 10);
+
+   
+    //use certain range to decide wheather to reconstract the graph 
+    float nofly_detect_x2 = waypoint_get_x(WP_people2);
+    float nofly_detect_y2 = waypoint_get_y(WP_people2);*/
+
+    if ((nofly_detect_x - nofly_before_x < 5 &&
+    nofly_detect_x - nofly_before_x > -5)) {
+      printf("Judge no reconstructing, nofly_before_x %f, nofly_after_x %f\n", nofly_before_x, nofly_detect_x);
+      return; //if it's in the range we don't reconstruct the graph
+    }
+
+//else we reconstruct the graph 
+    
+ 
+    /*if (WP_noflypoint > 0) {
+    waypoint_set_xy_i(WP_noflypoint, nofly_detect_x, nofly_detect_y);
+    waypoint_set_alt_i(WP_noflypoint, 0);
+
+    int32_t h = 0;
+    uint8_t wp_id = WP_noflypoint;
+    DOWNLINK_SEND_WP_MOVED_ENU(DefaultChannel, DefaultDevice, &wp_id, &(nofly_detect_x),
+                                   &(nofly_detect_y), &(h));
+
+  }*/
+    georeference_project(&target, WP_bufferCenter);
+    georeference_filter(FALSE, WP_bufferCenter, 10);
+    float xxx = waypoint_get_x(WP_bufferCenter);
+    printf("shoulb be %f\n", nofly_detect_x);
+    printf("noflypoint after detection:************************************* %f\n", xxx);
+
+    /*georeference_project(&target, WP_bufferCenter2);
+    georeference_filter(FALSE, WP_bufferCenter2, 10);*/
+
+    
+    float startX = GetPosX() * 253, startY = GetPosY() * 253;
+    reconstruct_visibility_graph(HOME_NODE, startX, startY);
+    //reconstruct the path node
+    //printf("the dest_x %d, y %d \n", dest_x, dest_y);
+    rebuild_path(startX, startY);
+
+
+    /*temp_node = init_vis_node(GetPosX(), GetPosY(), vis_graph_size);
+    for(int i = 1; i < vis_graph_size; i++) {
+      if(is_visible2(temp_node, vis_graph_ref[i])) {
+	add_neighbor(temp_node, vis_graph_ref[i], 0);
+      }
+    }
+    struct vis_node *end_node = closest_node(HOME_NODE, dest_x, dest_y);
+    free_path(PATH_START);
+    PATH_START = astar_path(temp_node, end_node);
+    CURR_NODE = PATH_START;*/
   } else {
     focus_length = 200;
   }

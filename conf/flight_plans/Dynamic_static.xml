@@ -5,9 +5,11 @@
 #include "autopilot.h"
 </header>
   <waypoints>
-    <waypoint name="HOME" x="0.0" y="0.0"/>
-    <waypoint name="BLOCK" x="5" y="5"/>
-    <waypoint name="DETECTED_OBJECT" x="-1000" y="-1000"/>
+    <waypoint name="HOME" x="0" y="0"/>
+    <!--waypoint name="BLOCK" x="40" y="40"/-->
+    <waypoint name="Dest" x="100" y="100"/>
+     
+    <noflypoint name="noflypoint" x="-100" y="-100" radius="3"/>
   </waypoints>
   <blocks>
     <block name="Wait GPS">
@@ -21,19 +23,26 @@
     <block name="Start Engine">
       <call_once fun="NavResurrect()"/>
     </block>
-    <block name="Takeoff" strip_button="Takeoff" strip_icon="takeoff.png">
+    <!--block name="Takeoff" strip_button="Takeoff" strip_icon="takeoff.png">
       <call_once fun="NavSetWaypointHere(WP_HOME)"/>
       <stay alt="10" until="stage_time > 5" wp="HOME"/>
-    </block>
-    <block name="circle">
+    </block-->
+    
+    <!--block name="circle">
       <circle alt="15" wp="BLOCK" radius="6"/>
+    </block-->
+    
+    <block name="GoThroughNoFlyPoints">
+      <path wpts="HOME, Dest"/>
+      <go wp="HOME"/>
     </block>
-    <block name="land">
+    
+    <!--block name="land">
       <stay climb="nav_descend_vspeed" vmode="climb" wp="DETECTED_OBJECT"/>
       <exception cond="!nav_is_in_flight()" deroute="landed"/>
     </block>
     <block name="landed">
       <attitude pitch="0" roll="0" throttle="0" until="FALSE" vmode="throttle"/>
-    </block>
+    </block-->
   </blocks>
 </flight_plan>

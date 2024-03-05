@@ -91,6 +91,7 @@ let variables = [
   "block_time";
   "SECURITY_ALT";
   "ground_alt"; "GROUND_ALT";
+  "max_speed";"MAX_SPEED";
   "TRUE";
   "FALSE";
   "QFU";

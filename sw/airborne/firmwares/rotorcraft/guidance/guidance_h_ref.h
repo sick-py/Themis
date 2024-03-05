@@ -33,6 +33,7 @@
 #include "math/pprz_algebra_float.h"
 #include "generated/airframe.h"
 #include "math/pprz_algebra_float.h"
+#include "firmwares/rotorcraft/navigation.h"
 
 /** Default speed saturation */
 #ifndef GUIDANCE_H_REF_MAX_SPEED

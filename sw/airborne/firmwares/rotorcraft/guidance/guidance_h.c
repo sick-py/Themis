@@ -667,8 +667,10 @@ static void read_rc_setpoint_speed_i(struct Int32Vect2 *speed_sp, bool in_flight
     DeadBand(rc_x, MAX_PPRZ / 20);
     DeadBand(rc_y, MAX_PPRZ / 20);
 
-    // convert input from MAX_PPRZ range to SPEED_BFP
+
+
     int32_t max_speed = SPEED_BFP_OF_REAL(GUIDANCE_H_REF_MAX_SPEED);
+
     /// @todo calc proper scale while making sure a division by zero can't occur
     //int32_t rc_norm = sqrtf(rc_x * rc_x + rc_y * rc_y);
     //int32_t max_pprz = rc_norm * MAX_PPRZ / Max(abs(rc_x), abs(rc_y);

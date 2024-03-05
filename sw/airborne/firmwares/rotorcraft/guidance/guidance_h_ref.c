@@ -55,7 +55,7 @@ void gh_ref_init(void)
   gh_ref.zeta_omega = GUIDANCE_H_REF_ZETA * GUIDANCE_H_REF_OMEGA;
   gh_ref.omega_2 = GUIDANCE_H_REF_OMEGA * GUIDANCE_H_REF_OMEGA;
   gh_set_tau(GUIDANCE_H_REF_TAU);
-  gh_set_max_speed(GUIDANCE_H_REF_MAX_SPEED);
+  gh_set_max_speed(max_speed_m);
   gh_ref.dt = (1.0f/PERIODIC_FREQUENCY);
 }
 

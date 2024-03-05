@@ -6,11 +6,13 @@
 
 <!ELEMENT header (#PCDATA)>
 
-<!ELEMENT waypoints (waypoint+)>
+<!ELEMENT waypoints (waypoint|noflypoint)+>
 <!ELEMENT waypoint EMPTY>
+<!ELEMENT noflypoint EMPTY>
 
-<!ELEMENT sectors (sector|kml)*>
+<!ELEMENT sectors (sector|noflyzone|kml)*>
 <!ELEMENT sector (corner,corner,corner+)>
+<!ELEMENT noflyzone (corner,corner,corner+)>
 <!ELEMENT corner EMPTY>
 <!ELEMENT kml EMPTY>
 
@@ -65,6 +67,7 @@ lat0 CDATA #REQUIRED
 lon0 CDATA #REQUIRED
 max_dist_from_home CDATA #REQUIRED
 ground_alt CDATA #REQUIRED
+max_speed CDATA #IMPLIED
 security_height CDATA #REQUIRED
 alt CDATA #REQUIRED
 wp_frame CDATA #IMPLIED
@@ -87,11 +90,26 @@ lon CDATA #IMPLIED
 alt CDATA #IMPLIED
 height CDATA #IMPLIED>
 
+<!ATTLIST noflypoint
+name CDATA #REQUIRED
+x CDATA #IMPLIED
+y CDATA #IMPLIED
+lat CDATA #IMPLIED
+lon CDATA #IMPLIED
+alt CDATA #IMPLIED
+height CDATA #IMPLIED
+radius CDATA #REQUIRED>
+
 <!ATTLIST exceptions>
 
 <!ATTLIST sectors>
 
 <!ATTLIST sector
+name CDATA #REQUIRED
+color CDATA #IMPLIED
+type CDATA #IMPLIED>
+
+<!ATTLIST noflyzone
 name CDATA #REQUIRED
 color CDATA #IMPLIED
 type CDATA #IMPLIED>
